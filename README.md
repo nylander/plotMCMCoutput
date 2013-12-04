@@ -15,11 +15,11 @@ Files
 
 * [plotMCMCoutput.sh](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput.sh) -- General script for quickly plotting column data. For example, to plot several MrBayes \*.p files overlayed (use 'plotMCMCoutput.sh -h' for more info on options):
 
-    plotMCMCoutput.sh *.p
+        plotMCMCoutput.sh *.p
 
 * [plotstddev](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev) -- Plot the standard deviation of split frequencies in a MrBayes .mcmc file. For example:
 
-    plotstddev runs.1.2.mcmc 0.03
+        plotstddev runs.1.2.mcmc 0.03
 
 * [plotstddev_term.sh](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev_term.sh) -- Plot the standard deviation of split frequencies in a MrBayes .mcmc file, but plot in terminal window instead of device.
 
