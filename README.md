@@ -29,13 +29,13 @@ Files
 
 * runs.1.2.mcmc           -- Example .mcmc file from MrBayes v.3
 
-* plotMCMCoutput.png      -- Example output on device
+* plotMCMCoutput.png      -- Example output on [device](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput.png)
 
-* plotMCMCoutput_term.png -- Example output in terminal
+* plotMCMCoutput_term.png -- Example output in [terminal](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput_term.png)
 
-* plotstddev.png          -- Example output on device
+* plotstddev.png          -- Example output on [device](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev.png)
 
-* plotstddev_term.png     -- Example output in terminal 
+* plotstddev_term.png     -- Example output in [terminal](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev_term.png)
 
 
 Dependencies
