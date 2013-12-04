@@ -1,7 +1,7 @@
 plotMCMCoutput
 ==============
 
-Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbayes.sourceforge.net/) v.3, [BEAST](http://beast.bio.ed.ac.uk/), etc) using gnuplot
+Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbayes.sourceforge.net/) v.3, [BEAST](http://beast.bio.ed.ac.uk/), etc) using [gnuplot](http://www.gnuplot.info).
 
 
 Usage
