@@ -17,7 +17,7 @@ Files
 
                                  plotMCMCoutput.sh *.p
 
-* plotstddev              -- Plot the standard deviation of split frequencies in a MrBayes .mcmc file For example:
+* plotstddev              -- Plot the standard deviation of split frequencies in a MrBayes .mcmc file. For example:
 
                                  plotstddev runs.1.2.mcmc 0.03
 
