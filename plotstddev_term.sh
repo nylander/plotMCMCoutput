@@ -2,11 +2,14 @@
 
 ## Plot StdDev trace from a MrBayes *.mcmc file
 ## 06/09/2008 10:47:39 PM CEST
-## Johan A. A. Nylander
+## 03/11/2014 03:58:06 PM
+## By: Johan A. A. Nylander
 
+## Default stop val in MrBayes v. 3.2.3
+STOPVALDEFAULT="0.05"
 
 ## Check if gnuplot can be found
-GNUPLOT=`which gnuplot`
+GNUPLOT=$(which gnuplot)
 if [ -x "$GNUPLOT" ]; then
     echo
   else
@@ -34,13 +37,13 @@ fi
 
 ## Check stop value
 if [ ! "$2" ] ; then
-      STOPVAL="0.01" # Default in MrBayes 3.2
+      STOPVAL=$STOPVALDEFAULT
   elif [ "$2" ] ; then 
       STOPVAL=$2
 fi
 
 ## Get number of columns in the mcmc file. StdDev should be the last.
-NF=`awk 'END{print NF}' $FILE`
+NF=$(awk 'END{print NF}' $FILE)
 
 ## Do the plotting
 echo "Using gnuplot on file: \"$FILE\"."
