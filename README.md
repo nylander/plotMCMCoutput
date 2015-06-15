@@ -5,6 +5,9 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 
 ![gnuplot output](plotstddev.png?raw=true "Plot stddev")
 
+![gnuplot output](plotstddev_term.png?raw=true "Plot stddev term")
+
+
 Usage
 -----
 
