@@ -35,7 +35,7 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 
 6. Find out what parameters you have in the p file:
 
-        $ grep 'Gen' run1.p | tr '\t' '\n' | nl
+        $ grep '^Gen' run1.p | tr '\t' '\n' | nl
             1	Gen
             2	LnL
             3	TL
