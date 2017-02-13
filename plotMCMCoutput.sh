@@ -1,21 +1,21 @@
 #!/bin/bash
 
 ## Plot column data using gnuplot.
-## Version: 05/31/2016 10:25:29 AM
-## Johan Nylander
+## By: Johan.Nylander\@nbis.se
+## Version: 2017/02/13 
 ##
 
 ## Usage function
 function usage {
 cat <<End_Of_Usage
 
-`basename $0` version 05/31/2016
+`basename $0` version Feb 2017 
 
 What:
           Wrapper for plotting MCMC output with gnuplot (gnuplot required)
 
 By:
-          johan.nylander \@ bils.se
+          johan.nylander \@ nbis.se
 
 Usage:
           `basename $0` [-b burnin] [-o file | -l, -t] [[-c column] | [-x column][-y column]] file(s)
