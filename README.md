@@ -32,11 +32,15 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 
         $ plotMCMCoutput.sh -o out.png *.p
 
-5. Plot trace of log Likelihood in terminal from a growing ("live") file
+5. Plot trace of log Likelihood from a growing ("live") file
+
+        $ plotMCMCoutput.sh -l *.p
+
+![gnuplot output](img/live.gif?raw=true "Plot lnL live")
 
         $ plotMCMCoutput.sh -t -l *.p
 
-![gnuplot output](img/live.gif?raw=true "Plot lnL live in terminal")
+![gnuplot output](img/live-term.gif?raw=true "Plot lnL live in terminal")
 
 6. Find out what parameters you have in the p file:
 
