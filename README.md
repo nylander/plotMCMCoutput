@@ -2,9 +2,14 @@
 
 Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbayes.sourceforge.net/) v.3, [BEAST](http://beast.bio.ed.ac.uk/), etc) using [gnuplot](http://www.gnuplot.info).
 
-![gnuplot output](plotstddev.png?raw=true "Plot stddev")
+![gnuplot output](img/lnL.png?raw=true "Plot lnL")
+![gnuplot output](img/lnL-term.png?raw=true "Plot lnL term")
 
-![gnuplot output](plotstddev_term.png?raw=true "Plot stddev term")
+![gnuplot output](img/xy.png?raw=true "Plot lnL")
+![gnuplot output](img/xy-term.png?raw=true "Plot lnL term")
+
+![gnuplot output](img/stddev.png?raw=true "Plot stddev")
+![gnuplot output](img/stddev-term.png?raw=true "Plot stddev term")
 
 
 ## Usage
@@ -52,7 +57,7 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 
 ## Files
 
-* [plotMCMCoutput.sh](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput.sh) -- General script for quickly plotting column data. For example, to plot several MrBayes \*.p files overlayed (use 'plotMCMCoutput.sh -h' for more info on options):
+* [plotMCMCoutput.sh](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput.sh) -- General script for quickly plotting column data. For example, to plot several MrBayes \*.p files overlayed (use `plotMCMCoutput.sh -h` for more info on options):
 
         $ plotMCMCoutput.sh *.p
 
@@ -67,14 +72,6 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 * [run2.p](https://github.com/nylander/plotMCMCoutput/blob/master/run2.p) -- Example parameter file from MrBayes v.3
 
 * [runs.1.2.mcmc](https://github.com/nylander/plotMCMCoutput/blob/master/runs.1.2.mcmc) -- Example .mcmc file from MrBayes v.3
-
-* [plotMCMCoutput.png](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput.png) -- Example output on device
-
-* [plotMCMCoutput_term.png](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput_term.png) -- Example output in terminal
-
-* [plotstddev.png](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev.png) -- Example output on device
-
-* [plotstddev_term.png](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev_term.png) -- Example output in terminal
 
 
 ## Dependencies
