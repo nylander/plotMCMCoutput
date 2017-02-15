@@ -36,7 +36,7 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 
         $ plotMCMCoutput.sh -t -l *.p
 
-![gnuplot output](img/live.png?raw=true "Plot lnL live in terminal")
+![gnuplot output](img/live.gif?raw=true "Plot lnL live in terminal")
 
 6. Find out what parameters you have in the p file:
 
