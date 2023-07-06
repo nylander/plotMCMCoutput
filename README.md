@@ -2,11 +2,9 @@
 
 Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbayes.sourceforge.net/) v.3, [BEAST](http://beast.bio.ed.ac.uk/), etc) using [gnuplot](http://www.gnuplot.info).
 
-
 ## Usage
 
     $ plotMCMCoutput.sh [-b burnin] [-o file | -l, -t] [[-c column] | [-x column][-y column]] file(s)
- 
 
 ### Examples
 
@@ -81,7 +79,6 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 
 ![gnuplot output](img/stddev-term.png?raw=true "Plot AvgStdDev in terminal")
 
-
 ## Files
 
 * [plotMCMCoutput.sh](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput.sh) -- General script for quickly plotting column data.
@@ -101,10 +98,9 @@ Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbay
 
 All scripts are dependent on the [gnuplot](http://www.gnuplot.info/) software.
 
-
 ## Licence and Copyright
 
-Copyright (c) 2010-2020 Johan Nylander
+Copyright (c) 2010-2023 Johan Nylander
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
