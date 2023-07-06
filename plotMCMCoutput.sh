@@ -2,14 +2,13 @@
 
 ## Plot column data using gnuplot.
 ## By: Johan.Nylander\@nbis.se
-## Version: 2017/02/13 
-##
+## Last modified:tor  6 jul 2023 11:22:48
 
 ## Usage function
 function usage {
 cat <<End_Of_Usage
 
-`basename $0` version Feb 2017 
+$(basename "$0") version Feb 2017
 
 What:
           Wrapper for plotting MCMC output with gnuplot (gnuplot required)
@@ -18,7 +17,7 @@ By:
           johan.nylander \@ nbis.se
 
 Usage:
-          `basename $0` [-b burnin] [-o file | -l, -t] [[-c column] | [-x column][-y column]] file(s)
+          $(basename "$0") [-b burnin] [-o file | -l, -t] [[-c column] | [-x column][-y column]] file(s)
 
 Options:
           -b burnin  -- specify the number of generations to be discarded
@@ -32,21 +31,21 @@ Options:
           -h         -- print help message
 
 Examples: 
-          `basename $0` *.p
-          `basename $0` -t *.p
-          `basename $0` -o out.png *.p
-          `basename $0` -b 50000 -c 2 file.p
-          `basename $0` -b 50000 -x 1 -y 2 file
-          `basename $0` -t -l *.p
+          $(basename "$0") *.p
+          $(basename "$0") -t *.p
+          $(basename "$0") -o out.png *.p
+          $(basename "$0") -b 50000 -c 2 file.p
+          $(basename "$0") -b 50000 -x 1 -y 2 file
+          $(basename "$0") -t -l *.p
 
 Notes:
           Pay attention to gnuplot's ability to use numbering
           of, e.g., MCMC generations/samples!
           For example, compare the output from the following
           commands on an output file (.p) from MrBayes:
-          `basename $0` -b 50 file.p
-          `basename $0` -b 50 -c 2 file.p
-          `basename $0` -b 50 -x 1 -y 2 file.p
+          $(basename "$0") -b 50 file.p
+          $(basename "$0") -b 50 -c 2 file.p
+          $(basename "$0") -b 50 -x 1 -y 2 file.p
 
           The line count done when using the -v option ignore lines starting
           with # or [, but might include the header line. Gnuplot will ignore
@@ -59,7 +58,7 @@ Notes:
           If using the '-l' option, you need to abort using Ctrl+C when needed.
 
 End_Of_Usage
-    
+
 }
 
 ## Check gnuplot
@@ -70,20 +69,17 @@ if [ ! -x "$GNUPLOT" ]; then
 fi
 
 ## Read arguments
-pflag=
 bflag=
 cflag=
 vflag=
 tflag=
 fflag=
-iflag=
 lflag=
 burnin=0
 xcolumn=1
 ycolumn=2 # Note: likelihood is nr 4 in starbeast output. 2 in MrBayes etc.
 DUMMYTERM=
 FILETERM=
-MBCOMMENT=
 IMGFORMAT='png'
 
 while getopts 'x:y:b:c:o:f:lvht' OPTION
@@ -114,22 +110,26 @@ do
   t) tflag=1
      ;;
   h) usage
-     exit 2
+     exit
+     ;;
+  *) echo "Error: Unrecognized argument."
+     usage
+     exit
      ;;
   esac
 done
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 
 ## Put remaining args in files, and let gnuplot choke on non existing files or wrong flags...
 FILES="$*"
 if [ "$vflag" ] ; then
   echo "files to read: $FILES"
   for file in $FILES ; do
-    linecount=$(grep -v '^#' $file | grep -v '^\[' | wc -l) # not counting commented lines (starting with # or [)
+    linecount=$(grep -v '^#' "$file" | grep -c -v '^\[') # not counting commented lines (starting with # or [)
     echo "  file $file have"
     echo "    (uncommented) lines: $linecount"
     echo -n "    columns: "
-    tail -10 $file | head -1 | awk '{ print NF}' # assuming that a few lines from the end is representative
+    tail -10 "$file" | head -1 | awk '{ print NF}' # assuming that a few lines from the end is representative
   done
 fi
 
@@ -218,9 +218,9 @@ if [ "$vflag" ] ; then
   echo 'gnuplot command:'
   echo ''
   if [ "$oflag" ] ; then
-    echo ''$FILETERM'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\"$FILES\"'] filename using '$USING' with lines title filename'
+    echo ''"$FILETERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename'
   else
-    echo ''$DUMMYTERM'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\"$FILES\"'] filename using '$USING' with lines title filename'
+    echo ''"$DUMMYTERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename'
   fi
   echo ''
 fi
@@ -228,15 +228,15 @@ fi
 ## Do the actual plotting
 if [ "$FILES" ] ; then 
   if [ "$oflag" ] ; then
-    echo -e ''$FILETERM'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\"$FILES\"'] filename using '$USING' with lines title filename' | $GNUPLOT
+    echo -e ''"$FILETERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename' | $GNUPLOT
   elif [ "$lflag" ] ; then
-    echo -e ''$DUMMYTERM'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\"$FILES\"'] filename using '$USING' with lines title filename' > "$TMPFILE"
+    echo -e ''"$DUMMYTERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename' > "$TMPFILE"
     echo "pause 1" >> "$TMPFILE"
     echo "reread" >> "$TMPFILE"
     echo "(Use Ctrl+C to abort)"
     "$GNUPLOT" "$TMPFILE"
   else
-    echo -e ''$DUMMYTERM'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\"$FILES\"'] filename using '$USING' with lines title filename' | $GNUPLOT --persist
+    echo -e ''"$DUMMYTERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename' | $GNUPLOT --persist
   fi
 else
   usage
