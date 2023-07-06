@@ -18,9 +18,9 @@ if [ -x "$GNUPLOT" ]; then
 fi
 
 ## Check number of arguments
-if [ $# -gt 2  ] || [ ! $1 ] ; then
+if [ $# -gt 2  ] || [ ! "$1" ] ; then
   echo
-  echo "Usage: `basename $0` file.mcmc <stop value>"
+  echo "Usage: $(basename "$0") file.mcmc <stop value>"
   echo
   exit 1
 fi
@@ -31,7 +31,7 @@ if [ -f "$1" ] ; then
   else
       echo
       echo "File \"$1\" does not exist."
-      echo "Usage: `basename $0` file.mcmc <stop value>"
+      echo "Usage: $(basename "$0") file.mcmc <stop value>"
       exit 1
 fi
 
@@ -43,12 +43,12 @@ if [ ! "$2" ] ; then
 fi
 
 ## Get number of columns in the mcmc file. StdDev should be the last.
-NF=$(awk 'END{print NF}' $FILE)
+NF=$(awk 'END{print NF}' "$FILE")
 
 ## Do the plotting
 echo "Using gnuplot on file: \"$FILE\"."
 
-echo 'set term dumb; plot [:] [0:*] "'$FILE'" u 1:'$NF' t "Average SD of split frequencies" w l lw 3; f(x)='$STOPVAL'; replot f(x) t "Stop value in MrBayes" w l lw 2 lt 2' | $GNUPLOT
+echo 'set term dumb; plot [:] [0:*] "'"$FILE"'" u 1:'"$NF"' t "Average SD of split frequencies" w l lw 3; f(x)='"$STOPVAL"'; replot f(x) t "Stop value in MrBayes" w l lw 2 lt 2' | $GNUPLOT
 
 echo Done.
 
