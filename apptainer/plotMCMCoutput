@@ -1,0 +1,9 @@
+#!/usr/bin/bash -l
+# Wrapper for plotMCMCoutput.sif on dardel.pdc.kth.se
+# See https://github.com/nylander/plotMCMCoutput
+# Last modified: mån maj 12, 2025  10:50
+# Sign: JN
+if ! module is-loaded PDC apptainer; then
+  module -q load PDC apptainer
+fi
+plotMCMCoutput.sif "$@"

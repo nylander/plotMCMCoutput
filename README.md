@@ -1,121 +1,110 @@
 # plotMCMCoutput
 
-Shell scripts (bash) for plotting MCMC output (e.g., from [MrBayes](http://mrbayes.sourceforge.net/) v.3, [BEAST](http://beast.bio.ed.ac.uk/), etc) using [gnuplot](http://www.gnuplot.info).
+Shell scripts (bash) for plotting MCMC output from, e.g.,
+[MrBayes](https://github.com/NBISweden/MrBayes/) v.3, [BEAST
+X](https://beast.community/), [BEAST 2](https://www.beast2.org/) etc, using
+[gnuplot](http://www.gnuplot.info).
 
 ## Usage
 
     $ plotMCMCoutput.sh [-b burnin] [-o file | -l, -t] [[-c column] | [-x column][-y column]] file(s)
 
-### Examples
+## Examples
 
-1. Plot trace of log Likelihood in MrBayes .p files
+### Plot trace of log Likelihood in MrBayes .p files
 
-        $ plotMCMCoutput.sh *.p
+    $ plotMCMCoutput.sh data/*.p
 
-![gnuplot output](img/lnL.png?raw=true "Plot lnL")
+![Plot lnL](img/lnL.png)
 
-2. Plot trace of log Likelihood with burnin = 50
+### Plot trace of log Likelihood with burnin = 50
 
-        $ plotMCMCoutput.sh -b 50 *.p
+    $ plotMCMCoutput.sh -b 50 data/*.p
 
-![gnuplot output](img/lnL-burn.png?raw=true "Plot lnL with burnin")
+![Plot lnL with burnin](img/lnL-burn.png)
 
-3. Plot trace of log Likelihood in terminal (no graphics)
+### Plot trace of log Likelihood in terminal (no graphics)
 
-        $ plotMCMCoutput.sh -t *.p
+    $ plotMCMCoutput.sh -t data/*.p
 
-![gnuplot output](img/lnL-term.png?raw=true "Plot lnL in terminal")
+![Plot lnL in terminal](img/lnL-term.png)
 
-4. Plot trace of log Likelihood to file (PNG)
+### Plot trace of log Likelihood to file (PNG)
 
-        $ plotMCMCoutput.sh -o out.png *.p
+    $ plotMCMCoutput.sh -o out.png data/*.p
 
-5. Plot trace of log Likelihood from a growing ("live") file
+### Plot trace of log Likelihood from a growing ("live") file
 
-        $ plotMCMCoutput.sh -l *.p
+    $ plotMCMCoutput.sh -l data/*.p
 
-![gnuplot output](img/live.gif?raw=true "Plot lnL live")
+![Plot lnL live](img/live.gif)
 
-        $ plotMCMCoutput.sh -t -l *.p
+    $ plotMCMCoutput.sh -t -l data/*.p
 
-![gnuplot output](img/live-term.gif?raw=true "Plot lnL live in terminal")
+![Plot lnL live in terminal](img/live-term.gif)
 
-6. Find out what parameters you have in the p file:
+### Find out what parameters you have in the p file
 
-        $ grep '^Gen' run1.p | tr '\t' '\n' | nl
-            1	Gen
-            2	LnL
-            3	TL
-            4	pi(A)
-            5	pi(C)
-            6	pi(G)
-            7	pi(T)
+    $ grep '^Gen' data/run1.p | tr '\t' '\n' | nl
+        1	Gen
+        2	LnL
+        3	TL
+        4	pi(A)
+        5	pi(C)
+        6	pi(G)
+        7	pi(T)
 
-7. Plot selected columns
+### Plot selected columns
 
-        $ plotMCMCoutput.sh -c 3 *.p
+    $ plotMCMCoutput.sh -c 3 data/*.p
 
-![gnuplot output](img/col-3.png?raw=true "Plot column 3")
+![Plot column 3](img/col-3.png?raw=true "Plot column 3")
 
-        $ plotMCMCoutput.sh -t -c 3 *.p
+    $ plotMCMCoutput.sh -t -c 3 data/*.p
 
-![gnuplot output](img/col-3-term.png?raw=true "Plot column 3 in terminal")
+![Plot column 3 in terminal](img/col-3-term.png)
 
-        $ plotMCMCoutput.sh -x 4 -y 7 *.p
+    $ plotMCMCoutput.sh -x 4 -y 7 data/*.p
 
-![gnuplot output](img/col-4-7.png?raw=true "Plot columns 4 against 7")
+![Plot columns 4 against 7](img/col-4-7.png)
 
-        $ plotMCMCoutput.sh -t -x 4 -y 7 *.p
+    $ plotMCMCoutput.sh -t -x 4 -y 7 data/*.p
 
-![gnuplot output](img/col-4-7-term.png?raw=true "Plot columns 4 against 7 in terminal")
+![Plot columns 4 against 7 in terminal](img/col-4-7-term.png)
 
-8. Plot average standard deviation of split frequencies, specifying 0.03 as the treshold
+### Plot average standard deviation of split frequencies, specifying 0.03 as the treshold
 
-        $ plotstddev runs.1.2.mcmc 0.03
+    $ plotstddev data/runs.1.2.mcmc 0.03
 
-![gnuplot output](img/stddev.png?raw=true "Plot AvgStdDev")
+![Plot AvgStdDev](img/stddev.png)
 
-        $ plotstddev_term.sh -t runs.1.2.mcmc 0.03
+    $ plotstddev_term.sh -t data/runs.1.2.mcmc 0.03
 
-![gnuplot output](img/stddev-term.png?raw=true "Plot AvgStdDev in terminal")
+![Plot AvgStdDev in terminal](img/stddev-term.png)
 
 ## Files
 
-* [plotMCMCoutput.sh](https://github.com/nylander/plotMCMCoutput/blob/master/plotMCMCoutput.sh) -- General script for quickly plotting column data.
-
-* [plotstddev](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev) -- Plot the standard deviation of split frequencies in a MrBayes .mcmc file.
-
-* [plotstddev_term.sh](https://github.com/nylander/plotMCMCoutput/blob/master/plotstddev_term.sh) -- Plot the standard deviation of split frequencies in a MrBayes .mcmc file, but plot in terminal window instead of device.
-
-* [run1.p](https://github.com/nylander/plotMCMCoutput/blob/master/run1.p) -- Example parameter file from MrBayes v.3
-
-* [run2.p](https://github.com/nylander/plotMCMCoutput/blob/master/run2.p) -- Example parameter file from MrBayes v.3
-
-* [runs.1.2.mcmc](https://github.com/nylander/plotMCMCoutput/blob/master/runs.1.2.mcmc) -- Example .mcmc file from MrBayes v.3
-
+- [`plotMCMCoutput.sh`](plotMCMCoutput.sh) -- General script for quickly plotting
+  column data.
+- [`plotstddev`](plotstddev) -- Plot the standard deviation of split frequencies
+  in a MrBayes .mcmc file.
+- [`plotstddev_term.sh`](plotstddev_term.sh) -- Plot the standard deviation of
+  split frequencies in a MrBayes .mcmc file, but plot in terminal window
+  instead of device.
+- [data/run1.p](data/run1.p) -- Example parameter file from MrBayes v.3
+- [data/run2.p](data/run2.p) -- Example parameter file from MrBayes v.3
+- [data/runs.1.2.mcmc](data/runs.1.2.mcmc) -- Example .mcmc file from MrBayes v.3
+- [apptainer/](apptainer/README.md) -- Files for running plotMCMCoutput.sh as
+  singularity/apptainer image
 
 ## Dependencies
 
 All scripts are dependent on the [gnuplot](http://www.gnuplot.info/) software.
 
-## Licence and Copyright
+## License and Copyright
 
-Copyright (c) 2010-2023 Johan Nylander
+Copyright (c) 2010-2025 Johan Nylander. MIT [LICENSE](LICENSE)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## Download
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+<https://github.com/nylander/plotMCMCoutput>

@@ -1,0 +1,26 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%help
+    Run plotMCMCoutput.sh on dardel.pdc.kth.se.
+    Includes GNUPlot and script from github.com/nylander/plotMCMCoutput
+
+%post
+    apt update && apt install -y \
+        bash \
+        curl \
+        git \
+        gnuplot \
+        unzip \
+        wget \
+        && apt clean
+    mkdir -p /workspace/plotMCMCoutput
+    git clone https://github.com/nylander/plotMCMCoutput.git /workspace/plotMCMCoutput
+    chmod +x /workspace/plotMCMCoutput/plotMCMCoutput.sh
+
+%environment
+    export REPO_DIR=/workspace/plotMCMCoutput
+    export PATH=$PATH:$REPO_DIR
+
+%runscript
+    exec /workspace/plotMCMCoutput/plotMCMCoutput.sh "$@"
