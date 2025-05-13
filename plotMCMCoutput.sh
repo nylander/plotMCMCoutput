@@ -1,48 +1,51 @@
 #!/bin/bash
 
 ## Plot column data using gnuplot.
-## By: Johan.Nylander\@nbis.se
-## Last modified:tor  6 jul 2023 11:22:48
+## By: Johan.Nylander\@nnrm.se
+## Last modified: tis maj 13, 2025  10:21
 
 ## Usage function
 function usage {
 cat <<End_Of_Usage
 
-$(basename "$0") version Feb 2017
+$(basename "$0") version May 2025
 
 What:
           Wrapper for plotting MCMC output with gnuplot (gnuplot required)
 
 By:
-          johan.nylander \@ nbis.se
+          Johan Nylander
 
 Usage:
-          $(basename "$0") [-b burnin] [-o file | -l, -t] [[-c column] | [-x column][-y column]] file(s)
+          $(basename "$0") [options] file(s)
 
 Options:
           -b burnin  -- specify the number of generations to be discarded
-          -c column  -- specify column number. First column is nr. 1.
+          -c column  -- specify column number (first column is nr. 1) to plot
+          -h         -- print help message
+          -i         -- get info on column names
+          -l         -- plot a growing ("live") file to file or terminal
+          -o file    -- plot to file (png format)
+          -t         -- plot in terminal instead of file
+          -v         -- be verbose
           -x column  -- use together with -y to plot column y against column x
           -y column  -- as -c, or use with -x to plot column y against column x
-          -t         -- plot in terminal instead of device
-          -o file    -- plot to file (png format) instead of device
-          -l         -- plot a growing ("live") file to device or terminal
-          -v         -- be verbose
-          -h         -- print help message
 
-Examples: 
+Examples:
           $(basename "$0") *.p
           $(basename "$0") -t *.p
           $(basename "$0") -o out.png *.p
           $(basename "$0") -b 50000 -c 2 file.p
           $(basename "$0") -b 50000 -x 1 -y 2 file
           $(basename "$0") -t -l *.p
+          $(basename "$0") -i file
 
 Notes:
           Pay attention to gnuplot's ability to use numbering
           of, e.g., MCMC generations/samples!
           For example, compare the output from the following
           commands on an output file (.p) from MrBayes:
+
           $(basename "$0") -b 50 file.p
           $(basename "$0") -b 50 -c 2 file.p
           $(basename "$0") -b 50 -x 1 -y 2 file.p
@@ -52,8 +55,13 @@ Notes:
           any commented lines (starting with # or [), and will handle headers
           correctly.
 
+          The -i option will split the first, uncommented, line on tabs and
+          print the fields numbered. This will coincide with the header line
+          (if present).
+
           The script uses the standard unix/linux/macosx tools 'grep', 'head',
-          'tail, 'awk', and 'wc'. Portability is, however, mostly untested.
+          'tail, 'awk', 'tr', 'nl', and 'wc'. Portability is, however, mostly
+          untested.
 
           If using the '-l' option, you need to abort using Ctrl+C when needed.
 
@@ -71,10 +79,11 @@ fi
 ## Read arguments
 bflag=
 cflag=
-vflag=
-tflag=
 fflag=
+iflag=
 lflag=
+tflag=
+vflag=
 burnin=0
 xcolumn=1
 ycolumn=2 # Note: likelihood is nr 4 in starbeast output. 2 in MrBayes etc.
@@ -82,7 +91,7 @@ DUMMYTERM=
 FILETERM=
 IMGFORMAT='png'
 
-while getopts 'x:y:b:c:o:f:lvht' OPTION
+while getopts 'x:y:b:c:o:f:livht' OPTION
 do
   case $OPTION in
   b) bflag=1
@@ -105,6 +114,8 @@ do
      ;;
   l) lflag=1
      ;;
+  i) iflag=1
+     ;;
   v) vflag=1
      ;;
   t) tflag=1
@@ -122,6 +133,14 @@ shift $((OPTIND - 1))
 
 ## Put remaining args in files, and let gnuplot choke on non existing files or wrong flags...
 FILES="$*"
+
+if [ "$iflag" ] ; then
+  ## Read the first line not starting in # or [ or whitespace from the first file
+  FILE=("$FILES")
+  grep -P -m 1 '^[^#\[\]\s]' "${FILE[0]}" | tr '\t' '\n' | nl
+  exit 0
+fi
+
 if [ "$vflag" ] ; then
   echo "files to read: $FILES"
   for file in $FILES ; do
@@ -166,7 +185,7 @@ fi
 if [ "$cflag" ] ; then
   USING="$YCOLUMN"
 elif [ "$yflag" ] ; then
-  if [ $xflag ] ; then
+  if [ "$xflag" ] ; then
     USING="$XCOLUMN:$YCOLUMN"
   else
     USING="$YCOLUMN"
@@ -196,7 +215,6 @@ fi
 ## Live plot or not
 if [ "$lflag" ] ; then
   TMPFILE=$(mktemp -p "." --suffix=".gnuplot.cmd")
-  trap ctrl_c INT
   function ctrl_c() {
     echo "# Trapped CTRL-C. Exiting."
     if [ -e "$TMPFILE" ] ; then
@@ -204,6 +222,7 @@ if [ "$lflag" ] ; then
     fi
     exit 1
   }
+  trap ctrl_c INT
 fi
 
 ## Plot files with gnuplot
@@ -226,7 +245,7 @@ if [ "$vflag" ] ; then
 fi
 
 ## Do the actual plotting
-if [ "$FILES" ] ; then 
+if [ "$FILES" ] ; then
   if [ "$oflag" ] ; then
     echo -e ''"$FILETERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename' | $GNUPLOT
   elif [ "$lflag" ] ; then
