@@ -19,7 +19,7 @@ plotMCMCoutput.sh in a container.
 ## Specifics for running plotMCMCoutput.sh on [Dardel](https://www.pdc.kth.se/hpc-services/computing-systems/dardel-hpc-system)
 
 Build on local computer as above, then copy both script
-([plotMCMCoutput](https://github.com/nylander/plotMCMCoutput/apptainer/plotMCMCoutput))
+([plotMCMCoutput](plotMCMCoutput))
 and image file to Dardel:
 
     $ scp plotMCMCoutput.sif dardel.pdc.kth.se:~/bin
