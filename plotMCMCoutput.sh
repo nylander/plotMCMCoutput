@@ -2,7 +2,7 @@
 
 ## Plot column data using gnuplot.
 ## By: Johan.Nylander\@nnrm.se
-## Last modified: tis maj 13, 2025  10:21
+## Last modified: tor maj 15, 2025  03:22
 
 ## Usage function
 function usage {
@@ -20,16 +20,16 @@ Usage:
           $(basename "$0") [options] file(s)
 
 Options:
-          -b burnin  -- specify the number of generations to be discarded
-          -c column  -- specify column number (first column is nr. 1) to plot
-          -h         -- print help message
-          -i         -- get info on column names
-          -l         -- plot a growing ("live") file to file or terminal
-          -o file    -- plot to file (png format)
-          -t         -- plot in terminal instead of file
-          -v         -- be verbose
-          -x column  -- use together with -y to plot column y against column x
-          -y column  -- as -c, or use with -x to plot column y against column x
+          -b burnin      specify the number of generations to be discarded
+          -c column      specify column number (first column is nr. 1) to plot
+          -h             print help message
+          -i             get info on column names (if applicable)
+          -l             plot a growing ("live") file to file or terminal
+          -o file.png    plot to file (png format)
+          -t             plot in terminal instead of file
+          -v             be verbose
+          -x column      use together with -y to plot column y against column x
+          -y column      as -c, or use with -x to plot column y against column x
 
 Examples:
           $(basename "$0") *.p
@@ -51,13 +51,13 @@ Notes:
           $(basename "$0") -b 50 -x 1 -y 2 file.p
 
           The line count done when using the -v option ignore lines starting
-          with # or [, but might include the header line. Gnuplot will ignore
-          any commented lines (starting with # or [), and will handle headers
-          correctly.
+          with # or [, but might include the header line. For plotting,
+          Gnuplot will ignore any commented lines (starting with # or [),
+          and will handle headers correctly.
 
           The -i option will split the first, uncommented, line on tabs and
           print the fields numbered. This will coincide with the header line
-          (if present).
+          -- if present -- otherwise not.
 
           The script uses the standard unix/linux/macosx tools 'grep', 'head',
           'tail, 'awk', 'tr', 'nl', and 'wc'. Portability is, however, mostly
@@ -69,10 +69,10 @@ End_Of_Usage
 
 }
 
-## Check gnuplot
-GNUPLOT=$(which gnuplot)
-if [ ! -x "$GNUPLOT" ]; then
-  echo "gnuplot can not be found in the PATH. Quitting."
+## Check gnuplot (change path here manually if needed)
+GNUPLOT=gnuplot
+if ! command -v "$GNUPLOT" > /dev/null; then
+  echo "$GNUPLOT can not be found in the PATH. Quitting."
   exit 1
 fi
 
@@ -216,7 +216,7 @@ fi
 if [ "$lflag" ] ; then
   TMPFILE=$(mktemp -p "." --suffix=".gnuplot.cmd")
   function ctrl_c() {
-    echo "# Trapped CTRL-C. Exiting."
+    echo "Trapped CTRL-C. Exiting."
     if [ -e "$TMPFILE" ] ; then
       rm -r "$TMPFILE"
     fi
@@ -249,9 +249,14 @@ if [ "$FILES" ] ; then
   if [ "$oflag" ] ; then
     echo -e ''"$FILETERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename' | $GNUPLOT
   elif [ "$lflag" ] ; then
-    echo -e ''"$DUMMYTERM"'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename' > "$TMPFILE"
-    echo "pause 1" >> "$TMPFILE"
-    echo "reread" >> "$TMPFILE"
+    echo -e ''"$DUMMYTERM"'set datafile commentschars "#[";set key right bottom;' > "$TMPFILE"
+    echo -e 'plot ['$BURNIN':] [:] for [filename in '\""$FILES"\"'] filename using '$USING' with lines title filename' >> "$TMPFILE"
+    echo -e 'while (1) {' >> "$TMPFILE"
+    echo 'pause 1' >> "$TMPFILE"
+    echo "system 'clear'" >> "$TMPFILE"
+    echo 'replot' >> "$TMPFILE"
+    echo "system 'echo \"(Use Ctrl+C to abort)\"'" >> "$TMPFILE"
+    echo '}' >> "$TMPFILE"
     echo "(Use Ctrl+C to abort)"
     "$GNUPLOT" "$TMPFILE"
   else
@@ -271,17 +276,4 @@ if [ "$lflag" ] ; then
 fi
 
 exit 1
-
-
-# if [ "$FILES" ] ; then 
-#     if [ "$oflag" ] ; then
-#         echo -e ''$FILETERM'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\"$FILES\"'] filename using '$USING' with lines title filename' | $GNUPLOT
-#     else
-#         echo -e ''$DUMMYTERM'set datafile commentschars "#[";set key right bottom;plot ['$BURNIN':] [:] for [filename in '\"$FILES\"'] filename using '$USING' with lines title filename' | $GNUPLOT --persist
-#     fi
-# else
-#     usage
-#     echo
-#     exit 1
-# fi
 
