@@ -10,8 +10,12 @@ X](https://beast.community/), [BEAST 2](https://www.beast2.org/) etc, using
 ## Installation and dependencies
 
 The scripts are written in Bash (tested on bash v5.2.21), and uses the software
-[gnuplot](http://www.gnuplot.info/) for plotting. On a Debian-based system using `apt` (e.g. \*buntu),
-`gnuplot` can be installed with `sudo apt install gnuplot`.
+[gnuplot](http://www.gnuplot.info/) for plotting. On a Debian-based system
+using `apt` (e.g. \*buntu), `gnuplot` can be installed with `sudo apt install
+gnuplot`.
+
+The files in the folder [Apptainer](Apptainer/README.md) describes how to
+install gnuplot and scripts as a container.
 
 ## Usage (main script `plotMCMCoutput.sh`)
 
@@ -105,18 +109,19 @@ The scripts are written in Bash (tested on bash v5.2.21), and uses the software
 
 ## Files
 
-- [`plotMCMCoutput.sh`](plotMCMCoutput.sh) -- General script for quickly plotting
-  column data.
-- [`plotstddev`](plotstddev) -- Plot the standard deviation of split frequencies
-  in a MrBayes .mcmc file.
+- [`plotMCMCoutput.sh`](plotMCMCoutput.sh) -- General script for quickly
+  plotting column data.
+- [`plotstddev`](plotstddev) -- Plot the standard deviation of split
+  frequencies in a MrBayes .mcmc file.
 - [`plotstddev_term.sh`](plotstddev_term.sh) -- Plot the standard deviation of
   split frequencies in a MrBayes .mcmc file, but plot in terminal window
   instead of device.
 - [data/run1.p](data/run1.p) -- Example parameter file from MrBayes v.3
 - [data/run2.p](data/run2.p) -- Example parameter file from MrBayes v.3
-- [data/runs.1.2.mcmc](data/runs.1.2.mcmc) -- Example .mcmc file from MrBayes v.3
-- [apptainer/](apptainer/README.md) -- Files for running plotMCMCoutput.sh as
-  a singularity/apptainer image
+- [data/runs.1.2.mcmc](data/runs.1.2.mcmc) -- Example .mcmc file from MrBayes
+  v.3
+- [apptainer/](apptainer/README.md) -- Files for running plotMCMCoutput.sh as a
+  singularity/apptainer image
 
 ## License and Copyright
 
