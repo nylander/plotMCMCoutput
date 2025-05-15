@@ -14,7 +14,7 @@ The scripts are written in Bash (tested on bash v5.2.21), and uses the software
 using `apt` (e.g. \*buntu), `gnuplot` can be installed with `sudo apt install
 gnuplot`.
 
-The files in the folder [Apptainer](Apptainer/README.md) describes how to
+The files in the folder [apptainer](apptainer/README.md) describes how to
 install gnuplot and scripts as a container.
 
 ## Usage (main script `plotMCMCoutput.sh`)
