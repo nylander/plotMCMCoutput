@@ -2,7 +2,7 @@
 
 ## Plot column data using gnuplot.
 ## By: Johan.Nylander\@nnrm.se
-## Last modified: tor maj 15, 2025  03:22
+## Last modified: tor maj 15, 2025  03:26
 
 ## Usage function
 function usage {
@@ -134,7 +134,7 @@ shift $((OPTIND - 1))
 ## Put remaining args in files, and let gnuplot choke on non existing files or wrong flags...
 FILES="$*"
 
-if [ "$iflag" ] ; then
+if [ "$iflag" = 1 ] ; then
   ## Read the first line not starting in # or [ or whitespace from the first file
   FILE=("$FILES")
   grep -P -m 1 '^[^#\[\]\s]' "${FILE[0]}" | tr '\t' '\n' | nl
