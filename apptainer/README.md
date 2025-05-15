@@ -5,7 +5,7 @@
 Script and [apptainer](https://apptainer.org/) definition file for running
 plotMCMCoutput.sh in a container.
 
-1. Get definifion file [plotMCMCoutput.def](plotMCMCouput.def)
+1. Get definifion file [plotMCMCoutput.def](plotMCMCoutput.def)
 
 2. Build locally
 
